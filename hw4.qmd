@@ -29,6 +29,14 @@ week of June 30, 2024 in CSV format; save it under a directory data with an
 informative name (e.g., nyccrashes_2024w0630_by20240916.csv); read the data
 into a Panda data frame with careful handling of the date time variables.
 
+```{python}
+import pandas as pd
+
+crash_df = pd.read_csv('data/nyccrashes_2024w0630_by20250211.csv')
+
+crash_df.head()
+```
+
 ## Part b.
 
 Clean up the variable names. Use lower cases and replace spaces with
