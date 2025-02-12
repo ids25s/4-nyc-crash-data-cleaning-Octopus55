@@ -42,6 +42,12 @@ crash_df.head()
 Clean up the variable names. Use lower cases and replace spaces with
 underscores.
 
+```{python}
+crash_df.columns = crash_df.columns.str.lower().str.replace(' ', '_')
+
+crash_df.head()
+```
+
 ## Part c.
 
 Get the basic summaries of each variables: missing percentage;
