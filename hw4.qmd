@@ -1,0 +1,17 @@
+---
+title: "Homework Assignment 4"
+author: "Nicholas Pfeifer"
+toc: true
+number-sections: true
+highlight-style: pygments
+format: 
+  html: 
+    code-fold: true
+    html-math-method: katex
+    embed-resources: true
+    self-contained-math: true
+  pdf: 
+    geometry: 
+      - top=30mm
+      - left=20mm
+---
