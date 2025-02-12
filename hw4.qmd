@@ -34,7 +34,7 @@ import pandas as pd
 
 crash_df = pd.read_csv('data/nyccrashes_2024w0630_by20250211.csv')
 
-crash_df.head()
+crash_df
 ```
 
 ## Part b.
@@ -53,6 +53,18 @@ crash_df.head()
 Get the basic summaries of each variables: missing percentage;
 descriptive statistics for continuous variables; frequency tables for
 discrete variables.
+
+```{python}
+crash_df.describe()
+```
+
+```{python}
+crash_df.isnull().mean()
+```
+
+```{python}
+crash_df['borough'].value_counts()
+```
 
 ## Part d.
 
