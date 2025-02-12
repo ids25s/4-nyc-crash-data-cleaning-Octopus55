@@ -15,3 +15,72 @@ format:
       - top=30mm
       - left=20mm
 ---
+
+# Exercise 8
+
+NYC Crash Data Cleaning The NYC motor vehicle collisions data with
+documentation is available from NYC Open Data. The raw data needs some
+cleaning.
+
+## Part a.
+
+Use the filter from the website to download the crash data of the
+week of June 30, 2024 in CSV format; save it under a directory data with an
+informative name (e.g., nyccrashes_2024w0630_by20240916.csv); read the data
+into a Panda data frame with careful handling of the date time variables.
+
+## Part b.
+
+Clean up the variable names. Use lower cases and replace spaces with
+underscores.
+
+## Part c.
+
+Get the basic summaries of each variables: missing percentage;
+descriptive statistics for continuous variables; frequency tables for
+discrete variables.
+
+## Part d.
+
+Are their invalid longitude and latitude in the data? If so,
+replace them with NA.
+
+## Part e.
+
+Are there zip_code values that are not legit NYC zip codes? If so,
+replace them with NA.
+
+## Part f.
+
+Are there missing in zip_code and borough? Do they always co-occur?
+
+## Part g.
+
+Are there cases where zip_code and borough are missing but the geo codes are
+not missing? If so, fill in zip_code and borough using the geo codes.
+
+## Part h.
+
+Is it redundant to keep both location and the longitude/latitude at
+the NYC Open Data server?
+
+## Part i.
+
+Check the frequency of crash_time by hour. Is there a matter of bad luck
+at exactly midnight? How would you interpret this?
+
+## Part j.
+
+Are the number of persons killed/injured the summation of the numbers of
+pedestrians, cyclist, and motorists killed/injured? If so, is it redundant
+to keep these two columns at the NYC Open Data server?
+
+## Part k.
+
+Print the whole frequency table of contributing_factor_vehicle_1.
+Convert lower cases to uppercases and check the frequencies again.
+
+## Part l.
+
+Provided an opportunity to meet the data provider, what suggestions
+would you make based on your data exploration experience?
