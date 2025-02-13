@@ -202,6 +202,29 @@ crash_df = crash_df.drop(columns = ['location'])
 Check the frequency of crash_time by hour. Is there a matter of bad luck
 at exactly midnight? How would you interpret this?
 
+```{python}
+crash_df.head()
+
+crash_df['stop_index'] = crash_df['crash_time'].str.find(':')
+crash_df['crash_time_hour'] = crash_df.apply(
+  lambda x: x['crash_time'][:x['stop_index']], axis = 1)
+
+crash_df['crash_time_hour'].value_counts()
+```
+
+```{python}
+crash_df['crash_time'].value_counts()
+```
+
+The midnight hour is responsible for the second most amount of crashes.
+The second at exactly midnight also appears to be a hotspot for crashes.
+I would expect crashes to be more evenly distributed across all of the
+seconds in a day. An explanation for this could be that the crash time is
+more likely to be reported at hourly intervals since some people may find
+it more practical. Those involved in a motor vehicle collision can be
+distracted with their environment, which could lead them to give a rough
+estimate of when the crash occured.
+
 ## Part k.
 
 Are the number of persons killed/injured the summation of the numbers of
