@@ -188,6 +188,15 @@ not missing? If so, fill in zip_code and borough using the geo codes.
 Is it redundant to keep both location and the longitude/latitude at
 the NYC Open Data server?
 
+Yes, it is redundant to keep both. We do not need two different
+ways of storing the location data. Since it is easier to access the data
+when logitude and latitude are in separate columns, we can get rid of the
+location column which is containing both values in the same column.
+
+```{python}
+crash_df = crash_df.drop(columns = ['location'])
+```
+
 ## Part j.
 
 Check the frequency of crash_time by hour. Is there a matter of bad luck
