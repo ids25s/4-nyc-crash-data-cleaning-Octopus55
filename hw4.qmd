@@ -166,6 +166,18 @@ crash_df['zip_code'].value_counts()
 
 Are there missing in zip_code and borough? Do they always co-occur?
 
+```{python}
+missing_zip = crash_df['zip_code'].isnull().sum()
+missing_borough = crash_df['borough'].isnull().sum()
+
+missing_both = crash_df[['zip_code', 'borough']].isnull().all(axis=1).sum()
+
+(missing_zip, missing_borough, missing_both)
+```
+
+The missing values in zip and borough do always co-occur.
+The difference of 13 is from the invalid zip codes that were converted to NA.
+
 ## Part h.
 
 Are there cases where zip_code and borough are missing but the geo codes are
