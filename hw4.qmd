@@ -58,16 +58,33 @@ Get the basic summaries of each variables: missing percentage;
 descriptive statistics for continuous variables; frequency tables for
 discrete variables.
 
-```{python}
-crash_df.describe()
-```
+**Missing Percentage**
 
 ```{python}
 crash_df.isnull().mean()
 ```
 
+**Descriptive Statistics for Continuous Variables**
+
 ```{python}
-crash_df['borough'].value_counts()
+continuous_variables = ['latitude', 'longitude', 'number_of_persons_injured',
+'number_of_persons_killed', 'number_of_pedestrians_injured',
+'number_of_pedestrians_killed', 'number_of_cyclist_injured',
+'number_of_cyclist_killed', 'number_of_motorist_injured',
+'number_of_motorist_killed']
+
+crash_df[continuous_variables].describe()
+```
+
+**Frequency Tables for Discrete Variables**
+
+```{python}
+discrete_variables = crash_df.drop(columns = continuous_variables).columns
+
+for var in discrete_variables:
+  var_freq = crash_df[var].value_counts(dropna=False)
+  var_freq.columns = [var, 'count']
+  print(var_freq)
 ```
 
 ## Part d.
