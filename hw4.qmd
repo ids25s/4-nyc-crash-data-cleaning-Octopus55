@@ -92,6 +92,22 @@ for var in discrete_variables:
 Are their invalid longitude and latitude in the data? If so,
 replace them with NA.
 
+```{python}
+crash_df[(crash_df['latitude'] == 0) | (crash_df['longitude'] == 0)]
+```
+
+There are 3 rows that have longitude and latitude values of 0.
+Those coordinates not in New York City, so they are invalid.
+
+```{python}
+crash_df['latitude'] = crash_df['latitude'].replace(0, pd.NA)
+crash_df['longitude'] = crash_df['longitude'].replace(0, pd.NA)
+```
+
+```{python}
+crash_df.loc[[18, 378, 1560]]
+```
+
 ## Part e.
 
 Are there zip_code values that are not legit NYC zip codes? If so,
