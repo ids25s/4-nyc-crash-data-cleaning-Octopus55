@@ -30,9 +30,13 @@ informative name (e.g., nyccrashes_2024w0630_by20240916.csv); read the data
 into a Panda data frame with careful handling of the date time variables.
 
 ```{python}
+import numpy as np
 import pandas as pd
 
-crash_df = pd.read_csv('data/nyccrashes_2024w0630_by20250211.csv')
+crash_df = pd.read_csv('data/nyccrashes_2024w0630_by20250212.csv',
+                       dtype = {'ZIP CODE': str,
+                                'LATITUDE': np.float32,
+                                'LONGITUDE': np.float32})
 
 crash_df
 ```
