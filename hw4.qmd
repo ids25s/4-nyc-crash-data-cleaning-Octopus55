@@ -231,6 +231,40 @@ Are the number of persons killed/injured the summation of the numbers of
 pedestrians, cyclist, and motorists killed/injured? If so, is it redundant
 to keep these two columns at the NYC Open Data server?
 
+```{python}
+crash_df['injured_sum'] = crash_df['number_of_pedestrians_injured'] + \
+                          crash_df['number_of_cyclist_injured'] + \
+                          crash_df['number_of_motorist_injured']
+
+crash_df['injured_verify'] = crash_df['number_of_persons_injured'] == \
+                             crash_df['injured_sum']
+
+crash_df['injured_verify'].value_counts()
+```
+
+```{python}
+crash_df['killed_sum'] = crash_df['number_of_pedestrians_killed'] + \
+                          crash_df['number_of_cyclist_killed'] + \
+                          crash_df['number_of_motorist_killed']
+
+crash_df['killed_verify'] = crash_df['number_of_persons_killed'] == \
+                             crash_df['killed_sum']
+
+crash_df['killed_verify'].value_counts()
+```
+
+Yes, the number of persons injured/killed is the summation of the
+pedestrians, cyclists, and motorists columns. It is redundant to keep
+these summartion columns since they can be derived from other columns and
+they take up space. However, the pedestrians, cyclists, and motorists columns
+should not be removed since they give information about the individual crash
+that we otherwise would not have.
+
+```{python}
+crash_df = crash_df.drop(columns = ['number_of_persons_injured',
+                                    'number_of_persons_killed'])
+```
+
 ## Part l.
 
 Print the whole frequency table of contributing_factor_vehicle_1.
