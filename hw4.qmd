@@ -270,6 +270,20 @@ crash_df = crash_df.drop(columns = ['number_of_persons_injured',
 Print the whole frequency table of contributing_factor_vehicle_1.
 Convert lower cases to uppercases and check the frequencies again.
 
+```{python}
+cf1_freq = crash_df['contributing_factor_vehicle_1'].value_counts(dropna=False)
+cf1_freq.columns = ['contributing_factor_vehicle_1', 'count']
+cf1_freq
+```
+
+```{python}
+crash_df['contributing_factor_vehicle_1'] = crash_df['contributing_factor_vehicle_1'].str.upper()
+
+cf1_freq = crash_df['contributing_factor_vehicle_1'].value_counts(dropna=False)
+cf1_freq.columns = ['contributing_factor_vehicle_1', 'count']
+cf1_freq
+```
+
 ## Part m.
 
 Provided an opportunity to meet the data provider, what suggestions
