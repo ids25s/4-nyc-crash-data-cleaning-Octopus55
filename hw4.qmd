@@ -54,6 +54,11 @@ crash_df.head()
 
 ## Part c.
 
+Check the crash date and time to see if they really match the
+filter we intented. Remove the extra rows if needed.
+
+## Part d.
+
 Get the basic summaries of each variables: missing percentage;
 descriptive statistics for continuous variables; frequency tables for
 discrete variables.
@@ -87,7 +92,7 @@ for var in discrete_variables:
   print(var_freq)
 ```
 
-## Part d.
+## Part e.
 
 Are their invalid longitude and latitude in the data? If so,
 replace them with NA.
@@ -108,42 +113,42 @@ crash_df['longitude'] = crash_df['longitude'].replace(0, pd.NA)
 crash_df.loc[[18, 378, 1560]]
 ```
 
-## Part e.
+## Part f.
 
 Are there zip_code values that are not legit NYC zip codes? If so,
 replace them with NA.
 
-## Part f.
+## Part g.
 
 Are there missing in zip_code and borough? Do they always co-occur?
 
-## Part g.
+## Part h.
 
 Are there cases where zip_code and borough are missing but the geo codes are
 not missing? If so, fill in zip_code and borough using the geo codes.
 
-## Part h.
+## Part i.
 
 Is it redundant to keep both location and the longitude/latitude at
 the NYC Open Data server?
 
-## Part i.
+## Part j.
 
 Check the frequency of crash_time by hour. Is there a matter of bad luck
 at exactly midnight? How would you interpret this?
 
-## Part j.
+## Part k.
 
 Are the number of persons killed/injured the summation of the numbers of
 pedestrians, cyclist, and motorists killed/injured? If so, is it redundant
 to keep these two columns at the NYC Open Data server?
 
-## Part k.
+## Part l.
 
 Print the whole frequency table of contributing_factor_vehicle_1.
 Convert lower cases to uppercases and check the frequencies again.
 
-## Part l.
+## Part m.
 
 Provided an opportunity to meet the data provider, what suggestions
 would you make based on your data exploration experience?
