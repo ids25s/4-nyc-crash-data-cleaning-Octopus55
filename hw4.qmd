@@ -57,6 +57,19 @@ crash_df.head()
 Check the crash date and time to see if they really match the
 filter we intented. Remove the extra rows if needed.
 
+```{python}
+crash_df[crash_df['crash_date'] == '07/07/2024']
+```
+
+There are rows from July 7 that were not intended to be included.
+
+```{python}
+crash_df = crash_df[crash_df['crash_date'] != '07/07/2024']
+crash_df
+```
+
+Now these rows have been removed from the dataframe.
+
 ## Part d.
 
 Get the basic summaries of each variables: missing percentage;
