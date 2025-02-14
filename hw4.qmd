@@ -286,6 +286,12 @@ crash_df[(crash_df['borough'].isna()) & (~crash_df['latitude'].isna())]
 Now the zip codes have been filled in, and the respective boroughs can be
 derived.
 
+Here is the borough data before derivation.
+
+```{python}
+crash_df['borough'].value_counts(dropna=False)
+```
+
 ```{python}
 crash_df['zip_code_numeric'] = pd.to_numeric(crash_df['zip_code'])
 ```
@@ -303,6 +309,12 @@ crash_df
 ```
 
 Now the borough has been filled in.
+
+Here is the borough data after derivation.
+
+```{python}
+crash_df['borough'].value_counts(dropna=False)
+```
 
 ## Part i.
 
