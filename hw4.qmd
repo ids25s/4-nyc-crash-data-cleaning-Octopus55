@@ -95,8 +95,21 @@ continuous_variables = ['latitude', 'longitude', 'number_of_persons_injured',
 'number_of_pedestrians_killed', 'number_of_cyclist_injured',
 'number_of_cyclist_killed', 'number_of_motorist_injured',
 'number_of_motorist_killed']
+```
 
-crash_df[continuous_variables].describe()
+```{python}
+crash_df[continuous_variables[:3]].describe()
+```
+
+```{python}
+crash_df[continuous_variables[3:6]].describe()
+```
+
+```{python}
+crash_df[continuous_variables[6:9]].describe()
+```
+```{python}
+crash_df[continuous_variables[9:]].describe()
 ```
 
 **Frequency Tables for Discrete Variables**
@@ -105,7 +118,7 @@ crash_df[continuous_variables].describe()
 discrete_variables = crash_df.drop(columns = continuous_variables).columns
 
 for var in discrete_variables:
-  var_freq = crash_df[var].value_counts(dropna=False)
+  var_freq = crash_df[var].value_counts(dropna=False).reset_index()
   var_freq.columns = [var, 'count']
   print(var_freq)
 ```
@@ -316,7 +329,7 @@ crash_df.loc[(crash_df['zip_code_numeric'] >= 10451) & \
 crash_df.loc[((crash_df['zip_code_numeric'] >= 11004) & \
   (crash_df['zip_code_numeric'] <= 11009)) | \
   ((crash_df['zip_code_numeric'] >= 11351) & \
-    (crash_df['zip_code_numeric'] <= 11697)), 'borough'] = 'QUEENS'
+  (crash_df['zip_code_numeric'] <= 11697)), 'borough'] = 'QUEENS'
 crash_df.loc[(crash_df['zip_code_numeric'] >= 11201) & \
   (crash_df['zip_code_numeric'] <= 11256), 'borough'] = 'BROOKLYN'
 ```
