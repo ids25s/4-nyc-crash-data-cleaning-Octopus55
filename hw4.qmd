@@ -261,15 +261,15 @@ The following code block takes approximately 6 minutes and 17 seconds to run,
 so I saved the data as a csv instead of running it over and over again.
 
 ```{python}
-from tqdm import tqdm
+'''from tqdm import tqdm
 
 for idx, row in tqdm(nozip_locs.iterrows(), total=nozip_locs.shape[0], dynamic_ncols=True, ncols=10):
   zip_code = get_zip_code(row['latitude'], row['longitude'])
-  crash_df.loc[idx, 'zip_code'] = zip_code
+  crash_df.loc[idx, 'zip_code'] = zip_code'''
 ```
 
 ```{python}
-crash_df.to_csv('crash_with_new_zips.csv', index = False)
+'''crash_df.to_csv('crash_with_new_zips.csv', index = False)'''
 ```
 
 ```{python}
@@ -308,6 +308,7 @@ location column which is containing both values in the same column.
 
 ```{python}
 crash_df = crash_df.drop(columns = ['location'])
+crash_df.head()
 ```
 
 ## Part j.
@@ -316,8 +317,6 @@ Check the frequency of crash_time by hour. Is there a matter of bad luck
 at exactly midnight? How would you interpret this?
 
 ```{python}
-crash_df.head()
-
 crash_df['stop_index'] = crash_df['crash_time'].str.find(':')
 crash_df['crash_time_hour'] = crash_df.apply(
   lambda x: x['crash_time'][:x['stop_index']], axis = 1)
