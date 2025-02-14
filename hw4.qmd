@@ -203,7 +203,7 @@ missing_both = crash_df[['zip_code', 'borough']].isnull().all(axis=1).sum()
 (missing_zip, missing_borough, missing_both)
 ```
 
-The missing values in zip and borough do always co-occur.
+The missing values in zip_code and borough do always co-occur.
 
 ### Part f. continued
 
@@ -232,6 +232,9 @@ not missing? If so, fill in zip_code and borough using the geo codes.
 nozip_locs = crash_df[crash_df['zip_code'].isna() & crash_df['borough'].isna() & ~crash_df['latitude'].isna() & ~crash_df['longitude'].isna()]
 nozip_locs
 ```
+
+The rows above are missing zip_code and borough, but have valid
+latitude and longitude.
 
 ```{python}
 from geopy.geocoders import Nominatim
@@ -280,6 +283,9 @@ crash_df = pd.read_csv('crash_with_new_zips.csv')
 crash_df[(crash_df['borough'].isna()) & (~crash_df['latitude'].isna())]
 ```
 
+Now the zip codes have been filled in, and the respective boroughs can be
+derived.
+
 ```{python}
 crash_df['zip_code_numeric'] = pd.to_numeric(crash_df['zip_code'])
 ```
@@ -295,6 +301,8 @@ crash_df.loc[(crash_df['zip_code_numeric'] >= 11201) & (crash_df['zip_code_numer
 ```{python}
 crash_df
 ```
+
+Now the borough has been filled in.
 
 ## Part i.
 
@@ -328,14 +336,14 @@ crash_df['crash_time_hour'].value_counts()
 crash_df['crash_time'].value_counts()
 ```
 
-The midnight hour is responsible for the second most amount of crashes.
+The midnight hour is responsible for the most amount of crashes.
 The second at exactly midnight also appears to be a hotspot for crashes.
 I would expect crashes to be more evenly distributed across all of the
 seconds in a day. An explanation for this could be that the crash time is
-more likely to be reported at hourly intervals since some people may find
-it more practical. Those involved in a motor vehicle collision can be
-distracted with their environment, which could lead them to give a rough
-estimate of when the crash occured.
+more likely to be reported at hourly or 5-minute intervals since some
+people may find it more practical. Those involved in a 
+motor vehicle collision can be distracted with their environment,
+which could lead them to give a rough estimate of when the crash occured.
 
 ## Part k.
 
@@ -369,17 +377,18 @@ crash_df['killed_verify'] = crash_df['number_of_persons_killed'] == \
 crash_df['killed_verify'].value_counts()
 ```
 
-Yes, the number of persons injured/killed is the summation of the
-pedestrians, cyclists, and motorists columns. It is redundant to keep
-these summartion columns since they can be derived from other columns and
-they take up space. However, the pedestrians, cyclists, and motorists columns
-should not be removed since they give information about the individual crash
-that we otherwise would not have.
-
-```{python}
-crash_df = crash_df.drop(columns = ['number_of_persons_injured',
-                                    'number_of_persons_killed'])
-```
+Interesting, the number of persons killed/injured is the summation of the
+pedestrians, cyclists, and motorists columns for almost every row.
+The number_of_persons_killed is the summation of the killed columns
+for every row. However, for the injured columns there are 43 rows in which
+the number_of_persons_injured is not the summation of the other three columns.
+It would be redundant to keep
+these summartion columns (if they were always equal) since they can be derived
+from other columns and they take up space. But since the injuries do not add
+up for every row, we would lose some information by removing the sum column.
+A possible explanation is that these specific crashes did have injuries, but
+it was not specified what the person's role was in the collision or their
+role did not align with any of the three established columns.
 
 ## Part l.
 
@@ -399,6 +408,8 @@ cf1_freq = crash_df['contributing_factor_vehicle_1'].value_counts(dropna=False)
 cf1_freq.columns = ['contributing_factor_vehicle_1', 'count']
 cf1_freq
 ```
+
+These two frequency tables look the same.
 
 ## Part m.
 
