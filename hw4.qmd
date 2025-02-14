@@ -276,7 +276,7 @@ for idx, row in tqdm(nozip_locs.iterrows(), total=nozip_locs.shape[0], dynamic_n
 ```
 
 ```{python}
-crash_df = pd.read_csv('crash_with_new_zips.csv')
+crash_df = pd.read_csv('data/crash_with_new_zips.csv')
 ```
 
 ```{python}
