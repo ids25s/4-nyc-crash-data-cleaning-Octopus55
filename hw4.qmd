@@ -201,7 +201,8 @@ Are there cases where zip_code and borough are missing but the geo codes are
 not missing? If so, fill in zip_code and borough using the geo codes.
 
 ```{python}
-crash_df[crash_df['zip_code'].isna() & crash_df['borough'].isna() & ~crash_df['latitude'].isna() & ~crash_df['longitude'].isna()]
+nozip_locs = crash_df[crash_df['zip_code'].isna() & crash_df['borough'].isna() & ~crash_df['latitude'].isna() & ~crash_df['longitude'].isna()]
+nozip_locs
 ```
 
 ```{python}
@@ -225,35 +226,38 @@ def get_zip_code(latitude, longitude):
         print(f"Error: {e} for coordinates {latitude}, {longitude}")
         return None
     finally:
-        time.sleep(1)
-```
-
-```{python}
-latitude = 40.730610
-longitude = -73.935242
-get_zip_code(latitude, longitude)
-```
-
-```{python}
-def fill_zip_and_borough(row):
-  if (type(row['zip_code']) is float):
-    row['zip_code'] = '10'
-    return row
-  else:
-    return row
-```
-
-```{python}
-df = crash_df.apply(fill_zip_and_borough, axis=1)
+        time.sleep(0.15)
 ```
 
 ```{python}
 crash_df[(crash_df['borough'].isna()) & (~crash_df['latitude'].isna())]
 ```
 
+The following code block takes approximately 6 minutes and 17 seconds to run,
+so I saved the data as a csv instead of running it over and over again.
 
 ```{python}
-crash_df['new_zip_code'] = [get_zip_code(x, y) for x, y in crash_df[['latitude', 'longitude']].iterrows()]
+from tqdm import tqdm
+
+for idx, row in tqdm(nozip_locs.iterrows(), total=nozip_locs.shape[0], dynamic_ncols=True, ncols=10):
+  zip_code = get_zip_code(row['latitude'], row['longitude'])
+  crash_df.loc[idx, 'zip_code'] = zip_code
+```
+
+```{python}
+crash_df.to_csv('crash_with_new_zips.csv', index = False)
+```
+
+```{python}
+crash_df['zip_code_numeric'] = pd.to_numeric(crash_df['zip_code'])
+```
+
+```{python}
+crash_df.loc[(crash_df['zip_code_numeric'] >= 10001) & (crash_df['zip_code_numeric'] <= 10282), 'borough'] = 'MANHATTAN'
+crash_df.loc[(crash_df['zip_code_numeric'] >= 10301) & (crash_df['zip_code_numeric'] <= 10314), 'borough'] = 'STATEN ISLAND'
+crash_df.loc[(crash_df['zip_code_numeric'] >= 10451) & (crash_df['zip_code_numeric'] <= 10475), 'borough'] = 'BRONX'
+crash_df.loc[((crash_df['zip_code_numeric'] >= 11004) & (crash_df['zip_code_numeric'] <= 11009)) | ((crash_df['zip_code_numeric'] >= 11351) & (crash_df['zip_code_numeric'] <= 11697)), 'borough'] = 'QUEENS'
+crash_df.loc[(crash_df['zip_code_numeric'] >= 11201) & (crash_df['zip_code_numeric'] <= 11256), 'borough'] = 'BROOKLYN'
 ```
 
 ## Part i.
