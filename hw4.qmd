@@ -251,6 +251,11 @@ df = crash_df.apply(fill_zip_and_borough, axis=1)
 crash_df[(crash_df['borough'].isna()) & (~crash_df['latitude'].isna())]
 ```
 
+
+```{python}
+crash_df['new_zip_code'] = [get_zip_code(x, y) for x, y in crash_df[['latitude', 'longitude']].iterrows()]
+```
+
 ## Part i.
 
 Is it redundant to keep both location and the longitude/latitude at
@@ -311,6 +316,10 @@ crash_df['injured_verify'].value_counts()
 ```
 
 ```{python}
+crash_df[crash_df['injured_verify'] == False][['number_of_persons_injured', 'number_of_pedestrians_injured', 'number_of_cyclist_injured', 'number_of_motorist_injured']]
+```
+
+```{python}
 crash_df['killed_sum'] = crash_df['number_of_pedestrians_killed'] + \
                           crash_df['number_of_cyclist_killed'] + \
                           crash_df['number_of_motorist_killed']
@@ -356,3 +365,13 @@ cf1_freq
 
 Provided an opportunity to meet the data provider, what suggestions
 would you make based on your data exploration experience?
+
+Given the oppotunity, I would have a few suggestions. One thing that stands
+out is the number of rows missing zip code and borough data relative to the
+number of rows missing location data. If latitude and longitude are known,
+zip code and borough should be able to be dervided. I would also suggest
+verifying that all longitudes and latitudes are valid. It does not make
+sense that there are rows with latitude and longitude values of 0. Assuming
+that the location of the collsion is unknown, these values should be NA.
+Lastly, I would suggest checking that all zip codes in the data set are valid
+zip codes of New York City.
