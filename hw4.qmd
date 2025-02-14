@@ -175,6 +175,10 @@ crash_df['zip_code'] = crash_df['zip_code'].replace(['NaN', '10065', '11249',
 crash_df['zip_code'].value_counts()
 ```
 
+```{python}
+crash_df[~crash_df['zip_code_numeric'].isin(valid_zips_codes) & ~crash_df['zip_code_numeric'].isna()]
+```
+
 ## Part g.
 
 Are there missing in zip_code and borough? Do they always co-occur?
@@ -189,12 +193,63 @@ missing_both = crash_df[['zip_code', 'borough']].isnull().all(axis=1).sum()
 ```
 
 The missing values in zip and borough do always co-occur.
-The difference of 13 is from the invalid zip codes that were converted to NA.
+
 
 ## Part h.
 
 Are there cases where zip_code and borough are missing but the geo codes are
 not missing? If so, fill in zip_code and borough using the geo codes.
+
+```{python}
+crash_df[crash_df['zip_code'].isna() & crash_df['borough'].isna() & ~crash_df['latitude'].isna() & ~crash_df['longitude'].isna()]
+```
+
+```{python}
+from geopy.geocoders import Nominatim
+import time
+
+geolocator = Nominatim(user_agent="jyGeopyTry")
+```
+
+```{python}
+def get_zip_code(latitude, longitude):
+    try:
+        location = geolocator.reverse((latitude, longitude), timeout=10)
+        if location:
+            address = location.raw['address']
+            zip_code = address.get('postcode', None)
+            return zip_code
+        else:
+            return None
+    except Exception as e:
+        print(f"Error: {e} for coordinates {latitude}, {longitude}")
+        return None
+    finally:
+        time.sleep(1)
+```
+
+```{python}
+latitude = 40.730610
+longitude = -73.935242
+get_zip_code(latitude, longitude)
+```
+
+```{python}
+def fill_zip_and_borough(row):
+  if (type(row['zip_code']) is float):
+    row['zip_code'] = '10'
+    return row
+  else:
+    return row
+```
+
+```{python}
+df = crash_df.apply(fill_zip_and_borough, axis=1)
+```
+
+```{python}
+crash_df[(crash_df['borough'].isna()) & (~crash_df['latitude'].isna())]
+```
 
 ## Part i.
 
