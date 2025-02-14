@@ -173,7 +173,8 @@ invalid_zip_freq
 ```
 
 ```{python}
-crash_df[~crash_df['zip_code_numeric'].isin(valid_zips_codes) & ~crash_df['zip_code_numeric'].isna()]
+crash_df[~crash_df['zip_code_numeric'].isin(valid_zips_codes)
+         & ~crash_df['zip_code_numeric'].isna()]
 ```
 
 The rows with invalid zip codes are shown above.
@@ -234,7 +235,10 @@ Are there cases where zip_code and borough are missing but the geo codes are
 not missing? If so, fill in zip_code and borough using the geo codes.
 
 ```{python}
-nozip_locs = crash_df[crash_df['zip_code'].isna() & crash_df['borough'].isna() & ~crash_df['latitude'].isna() & ~crash_df['longitude'].isna()]
+nozip_locs = crash_df[crash_df['zip_code'].isna() & \
+                      crash_df['borough'].isna() & \
+                      ~crash_df['latitude'].isna() & \
+                      ~crash_df['longitude'].isna()]
 nozip_locs
 ```
 
@@ -271,7 +275,8 @@ so I saved the data as a csv instead of running it over and over again.
 ```{python}
 '''from tqdm import tqdm
 
-for idx, row in tqdm(nozip_locs.iterrows(), total=nozip_locs.shape[0], dynamic_ncols=True, ncols=10):
+for idx, row in tqdm(nozip_locs.iterrows(), total=nozip_locs.shape[0],
+                     dynamic_ncols=True, ncols=10):
   zip_code = get_zip_code(row['latitude'], row['longitude'])
   crash_df.loc[idx, 'zip_code'] = zip_code'''
 ```
@@ -302,11 +307,18 @@ crash_df['zip_code_numeric'] = pd.to_numeric(crash_df['zip_code'])
 ```
 
 ```{python}
-crash_df.loc[(crash_df['zip_code_numeric'] >= 10001) & (crash_df['zip_code_numeric'] <= 10282), 'borough'] = 'MANHATTAN'
-crash_df.loc[(crash_df['zip_code_numeric'] >= 10301) & (crash_df['zip_code_numeric'] <= 10314), 'borough'] = 'STATEN ISLAND'
-crash_df.loc[(crash_df['zip_code_numeric'] >= 10451) & (crash_df['zip_code_numeric'] <= 10475), 'borough'] = 'BRONX'
-crash_df.loc[((crash_df['zip_code_numeric'] >= 11004) & (crash_df['zip_code_numeric'] <= 11009)) | ((crash_df['zip_code_numeric'] >= 11351) & (crash_df['zip_code_numeric'] <= 11697)), 'borough'] = 'QUEENS'
-crash_df.loc[(crash_df['zip_code_numeric'] >= 11201) & (crash_df['zip_code_numeric'] <= 11256), 'borough'] = 'BROOKLYN'
+crash_df.loc[(crash_df['zip_code_numeric'] >= 10001) & \
+  (crash_df['zip_code_numeric'] <= 10282), 'borough'] = 'MANHATTAN'
+crash_df.loc[(crash_df['zip_code_numeric'] >= 10301) & \
+  (crash_df['zip_code_numeric'] <= 10314), 'borough'] = 'STATEN ISLAND'
+crash_df.loc[(crash_df['zip_code_numeric'] >= 10451) & \
+  (crash_df['zip_code_numeric'] <= 10475), 'borough'] = 'BRONX'
+crash_df.loc[((crash_df['zip_code_numeric'] >= 11004) & \
+  (crash_df['zip_code_numeric'] <= 11009)) | \
+  ((crash_df['zip_code_numeric'] >= 11351) & \
+    (crash_df['zip_code_numeric'] <= 11697)), 'borough'] = 'QUEENS'
+crash_df.loc[(crash_df['zip_code_numeric'] >= 11201) & \
+  (crash_df['zip_code_numeric'] <= 11256), 'borough'] = 'BROOKLYN'
 ```
 
 ```{python}
@@ -380,7 +392,10 @@ crash_df['injured_verify'].value_counts()
 ```
 
 ```{python}
-crash_df[crash_df['injured_verify'] == False][['number_of_persons_injured', 'number_of_pedestrians_injured', 'number_of_cyclist_injured', 'number_of_motorist_injured']]
+crash_df[crash_df['injured_verify'] == False][['number_of_persons_injured',
+                                               'number_of_pedestrians_injured',
+                                               'number_of_cyclist_injured',
+                                               'number_of_motorist_injured']]
 ```
 
 ```{python}
